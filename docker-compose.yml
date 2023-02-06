@@ -1,0 +1,44 @@
+version: "3.7"
+
+networks:
+  app-network:
+    driver: bridge
+
+services:
+  app:
+    build:
+      context: ./.docker/php
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    working_dir: /var/www/app
+    depends_on:
+      - nginx
+      - postgres
+    volumes:
+      - ./application:/var/www/app
+
+  nginx:
+    image: nginx:latest
+    restart: unless-stopped
+    ports:
+      - 8100:80
+    volumes:
+      - ./application:/var/www/app
+      - ./.docker/nginx/conf:/etc/nginx/conf.d
+
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      PG-DATA: "/var/lib/postgresql/data/pgdata"
+    volumes:
+      - ./.docker/pgsql/script:/docker-entrypoint-initdb.d
+      - ./.docker/pgsql/data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+volumes:
+  app:
+  pg-data:
