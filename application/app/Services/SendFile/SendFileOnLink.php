@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-class SendFileToEmail implements SendFileContract
+class SendFileOnLink implements SendFileContract
 {
     private string $filePath;
 
@@ -12,7 +12,7 @@ class SendFileToEmail implements SendFileContract
         return $this;
     }
 
-    public function sendFile(string $filePath): void
+    public function sendFile(string $sendLink): void
     {
         // TODO: Implement sendFile() method.
     }

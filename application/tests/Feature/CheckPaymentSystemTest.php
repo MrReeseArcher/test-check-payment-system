@@ -18,6 +18,9 @@ class ExampleTest extends TestCase
             '/files/check-payment-system',
             [
                 'file' => 'filePath'
+            ],
+            [
+                'sendLink' => 'sendLink',
             ]
         );
 

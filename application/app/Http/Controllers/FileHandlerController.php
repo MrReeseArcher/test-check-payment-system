@@ -6,7 +6,6 @@ namespace App\Http\Controllers;
 
 use CheckPaymentSystemService;
 use Illuminate\Http\Client\Request;
-use Illuminate\Http\JsonResponse;
 use SendFileContract;
 
 class FileHandlerController extends Controller
@@ -21,6 +20,7 @@ class FileHandlerController extends Controller
     public function checkPaymentSystem(Request $request)
     {
         $file = $request->input('file');
+        $header = $request->header('fileLink');
 
         $resultFilePath = $this->checkPaymentSystemService
             ->setFilePath($file)
@@ -29,7 +29,7 @@ class FileHandlerController extends Controller
 
         $this->sendFileContract
             ->setFilePath($resultFilePath)
-            ->sendFile();
+            ->sendFile($header);
 
         return response();
     }
