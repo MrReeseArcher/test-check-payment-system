@@ -19,6 +19,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::prefix('files')->group(function () {
+Route::prefix('files')->middleware(['auth:sanctum'])->group(function () {
     Route::post('check-payment-system', [FileHandlerController::class, 'checkPaymentSystem']);
 });
